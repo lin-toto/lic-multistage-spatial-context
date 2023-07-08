@@ -68,6 +68,7 @@ model_architectures = {
 }
 
 root_url = "https://compressai.s3.amazonaws.com/models/v1"
+multistage_root_url = "https://github.com/lin-toto/lic-multistage-spatial-context-pretrained/raw/main"
 model_urls = {
     "bmshj2018-factorized": {
         "mse": {
@@ -193,6 +194,26 @@ model_urls = {
             6: f"{root_url}/cheng2020_attn-ms-ssim-6-216423ec.pth.tar",
         },
     },
+    "cheng2020-attn-gmm-multistage-2x2": {
+        "mse": {
+            1: f"{multistage_root_url}/2x2/cheng2020-attn-gmm-multistage-2x2-q1.pth.tar",
+            2: f"{multistage_root_url}/2x2/cheng2020-attn-gmm-multistage-2x2-q2.pth.tar",
+            3: f"{multistage_root_url}/2x2/cheng2020-attn-gmm-multistage-2x2-q3.pth.tar",
+            4: f"{multistage_root_url}/2x2/cheng2020-attn-gmm-multistage-2x2-q4.pth.tar",
+            5: f"{multistage_root_url}/2x2/cheng2020-attn-gmm-multistage-2x2-q5.pth.tar",
+            6: f"{multistage_root_url}/2x2/cheng2020-attn-gmm-multistage-2x2-q6.pth.tar",
+        }
+    },
+    "cheng2020-attn-gmm-multistage-4x4": {
+        "mse": {
+            1: f"{multistage_root_url}/4x4/cheng2020-attn-gmm-multistage-4x4-q1.pth.tar",
+            2: f"{multistage_root_url}/4x4/cheng2020-attn-gmm-multistage-4x4-q2.pth.tar",
+            3: f"{multistage_root_url}/4x4/cheng2020-attn-gmm-multistage-4x4-q3.pth.tar",
+            4: f"{multistage_root_url}/4x4/cheng2020-attn-gmm-multistage-4x4-q4.pth.tar",
+            5: f"{multistage_root_url}/4x4/cheng2020-attn-gmm-multistage-4x4-q5.pth.tar",
+            6: f"{multistage_root_url}/4x4/cheng2020-attn-gmm-multistage-4x4-q6.pth.tar",
+        }
+    }
 }
 
 cfgs = {
@@ -255,6 +276,22 @@ cfgs = {
         6: (192,),
     },
     "cheng2020-attn": {
+        1: (128,),
+        2: (128,),
+        3: (128,),
+        4: (192,),
+        5: (192,),
+        6: (192,),
+    },
+    "cheng2020-attn-gmm-multistage-2x2": {
+        1: (128,),
+        2: (128,),
+        3: (128,),
+        4: (192,),
+        5: (192,),
+        6: (192,),
+    },
+    "cheng2020-attn-gmm-multistage-4x4": {
         1: (128,),
         2: (128,),
         3: (128,),
