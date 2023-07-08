@@ -44,12 +44,12 @@ class MultistageSpatialContext(nn.Module):
         mask = self.prev_latent_mask[step] \
             .repeat(1, 1, y.size(2) // self.patch_size, y.size(3) // self.patch_size) \
             .expand(y.size(0), y.size(1), -1, -1)
-        masked_context = self.gcm[step](y * mask)
+        context = self.gcm[step](y * mask)
 
         context_mask = self.curr_latent_mask[step]. \
-            repeat(1, 1, masked_context.size(2) // self.patch_size, masked_context.size(3) // self.patch_size) \
-            .expand(masked_context.size(0), masked_context.size(1), -1, -1)
-        return masked_context * context_mask
+            repeat(1, 1, context.size(2) // self.patch_size, context.size(3) // self.patch_size) \
+            .expand(context.size(0), context.size(1), -1, -1)
+        return context * context_mask
 
     def get_xy_offset(self, step):
         return (self.pattern == step).nonzero().squeeze().tolist()
@@ -115,19 +115,14 @@ class Cheng2020AttentionGMMMultistage(Cheng2020Attention):
             gaussian_params = self.entropy_parameters(
                 torch.cat((hyper_info, masked_context), dim=1)
             )
-
             scales, means, weights = gaussian_params.chunk(3, 1)
             mask = self.multistage_context.curr_latent_mask[i].\
                 repeat(1, 1, scales.size(2) // self.patch_size, scales.size(3) // self.patch_size) \
                 .expand(scales.size(0), scales.size(1), -1, -1)
 
-            scales = scales * mask
-            means = means * mask
-            weights = weights * mask
-
-            scales_all += scales
-            means_all += means
-            weights_all += weights
+            scales_all += scales * mask
+            means_all += means * mask
+            weights_all += weights * mask
 
         weights_all = self._reshape_gmm_weight(weights_all)
         _, y_likelihoods = self.gaussian_conditional(y, scales_all, means_all, weights_all)
@@ -216,7 +211,7 @@ class Cheng2020AttentionGMMMultistage(Cheng2020Attention):
         return weight
 
 
-@register_model("cheng2020-attention-gmm-multistage-2x2")
+@register_model("cheng2020-attn-gmm-multistage-2x2")
 class Cheng2020AttentionGMMMultistage2x2(Cheng2020AttentionGMMMultistage):
     def __init__(self, M=192, K=3):
         pattern = torch.tensor((
@@ -225,7 +220,7 @@ class Cheng2020AttentionGMMMultistage2x2(Cheng2020AttentionGMMMultistage):
         super().__init__(2, pattern, M, K, )
 
 
-@register_model("cheng2020-attention-gmm-multistage-4x4")
+@register_model("cheng2020-attn-gmm-multistage-4x4")
 class Cheng2020AttentionGMMMultistage4x4(Cheng2020AttentionGMMMultistage):
     def __init__(self, M=192, K=3):
         pattern = torch.tensor((
