@@ -11,8 +11,7 @@ This repository contains:
 - An efficient Gaussian Mixture Model implementation
 - Multistage Spatial Context Model implementations on Cheng2020
 
-Pretrained weights for MSE are available at 
-[this repository](https://github.com/lin-toto/lic-multistage-spatial-context-pretrained).
+Pretrained weights for MSE are available [here](https://github.com/lin-toto/lic-multistage-spatial-context/releases/tag/v0.0.1).
 
 ## Usage
 
